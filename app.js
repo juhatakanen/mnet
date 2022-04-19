@@ -13,16 +13,17 @@ app.set("views", path.join(__dirname, '/views'))
 const headlessState = false
 
 app.get("/", async (req, res) => {
- let dataToEJS = await getData()
- let dataToEJSSorted = []
- for(let data of dataToEJS) {
-   for(let name of data) {
-    dataToEJSSorted.push(name)
-   }
- }
- dataToEJSSorted.sort()
-//  console.log(dataToEJS);
-  res.send(dataToEJSSorted);
+ let data = await getData()
+//  let dataSorted = []
+//  for(let data of data) {
+//    for(let name of data) {
+//     dataSorted.push(name)
+//    }
+//  }
+//  dataSorted.sort()
+//  console.log(data);
+console.log(data)
+  res.render('home', { data });
 });
 
 const sahkokitarat = '?type=sell&category=8'
@@ -76,7 +77,13 @@ async function getData() {
                 const pageNumber = document.querySelector("b")
 
                 for (let i = 0; i < gtrTitles.length; i++) {
-                  gtrTitleArray.push(`${pageNumber.innerHTML} ${gtrTitles[i].innerHTML} ${regexPrices[i]}`)
+                  gtrTitleArray.push(
+                    {
+                      pageNumber: pageNumber.innerHTML,
+                      title: gtrTitles[i].innerHTML,
+                      price: regexPrices[i]
+                    }
+                  )
                 }
                 // gtrTitles.forEach((title) => {
                 //   let i = 0
